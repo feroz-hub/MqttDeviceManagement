@@ -1,0 +1,11 @@
+@model LogResponseModel
+
+<div>
+    <h2>Log Response</h2>
+    <ul id="log-messages">
+        @foreach (var message in Model.Messages)
+        {
+            <li>@message</li>
+        }
+    </ul>
+</div>
