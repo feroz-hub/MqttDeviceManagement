@@ -70,4 +70,8 @@ public class LogRequestController(IMqttService mqttService) : Controller
         };
         return PartialView("_LogResponse", logResponseModel);
     }
+    public IActionResult Privacy()
+    {
+        return View();
+    }
 }
