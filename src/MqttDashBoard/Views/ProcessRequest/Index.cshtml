@@ -1,0 +1,100 @@
+@model ProcessModel
+
+<div class="card-body border p-4">
+    <div>
+        <h2>ProcessRequest</h2>
+        <form asp-action="Index" method="post">
+            <div class="form-group">
+                <label asp-for="ProcessRequestDto.TargetId" class="control-label"></label>
+                <div>
+                    <input asp-for="ProcessRequestDto.TargetId" class="form-control" id="TargetId" />
+                    <span asp-validation-for="ProcessRequestDto.TargetId" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProcessRequestDto.ProcessName" class="control-label"></label>
+                <div>
+                    <input asp-for="ProcessRequestDto.ProcessName" class="form-control"/>
+                    <span asp-validation-for="ProcessRequestDto.ProcessName" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProcessRequestDto.IsAckRequired" class="control-label"></label>
+                <div>
+                    <input type="radio" asp-for="ProcessRequestDto.IsAckRequired" value="true" id="IsAckRequiredTrue" />
+                    <label for="IsAckRequiredTrue">Yes</label>
+                </div>
+                <div>
+                    <input type="radio" asp-for="ProcessRequestDto.IsAckRequired" value="false" id="IsAckRequiredFalse" />
+                    <label for="IsAckRequiredFalse">No</label>
+                </div>
+                <span asp-validation-for="ProcessRequestDto.IsAckRequired" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProcessRequestDto.ActionType" class="control-label"></label>
+                <select asp-for="ProcessRequestDto.ActionType" class="form-control">
+                    @foreach (var actionType in Enum.GetValues(typeof(ActionType)))
+                    {
+                    <option value="@actionType">@actionType</option>
+                    }
+                </select>
+                <span asp-validation-for="ProcessRequestDto.ActionType" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="ProcessRequestDto.ResponseType" class="control-label"></label>
+                <select asp-for="ProcessRequestDto.ResponseType" class="form-control">
+                    @foreach (var responseType in Enum.GetValues(typeof(ResponseType)))
+                    {
+                    <option value="@responseType">@responseType</option>
+                    }
+                </select>
+                <span asp-validation-for="ProcessRequestDto.ResponseType" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+    <div>
+        <h2>Subscribe to Topic</h2>
+        <form asp-action="Subscribe" method="post" class="row">
+            <div class="p-3">
+                <div class="form-floating py-1 col-12">
+                    <input name="topic" class="form-control border shadow" placeholder="Enter topic to subscribe" />
+                    <label for="topic" class="ms-2">Topic</label>
+                </div>
+                <div class="row pt-2">
+                    <div class="col-6 col-md-3">
+                        <button type="submit" class="btn btn-primary w-100">
+                            <i class="bi bi-check-circle"></i> Subscribe
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div id="log-response-container">
+        @await Html.PartialAsync("_ProcessResponse",Model.ProcessResponseModel)
+    </div>
+</div>
+ 
+@section Scripts {
+@{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            function fetchMessages() {
+                $.get('@Url.Action("GetMessages", "ProcessRequest")', function (data) {
+                    $('#log-response-container').html(data);
+                });
+            }
+ 
+            setInterval(fetchMessages, 2000); // Fetch new messages every 5 seconds
+             $('input[name="selectedClients"]').change(function() {
+                        if ($(this).is(':checked')) {
+                            var deviceName = $(this).val(); // Get the device name
+                            $('#TargetId').val(deviceName); // Update the TargetId input field
+                        }
+                    });
+        });
+</script>
+}

@@ -44,7 +44,6 @@ public class LogRequestController(IMqttService mqttService) : Controller
         return RedirectToAction("Index");
     }
     [HttpPost]
-    [HttpPost]
     public async Task<IActionResult> Subscribe(string topic)
     {
         if (string.IsNullOrEmpty(topic))

@@ -30,6 +30,7 @@ public class MqttService:IMqttService
         _mqttClient.ApplicationMessageReceivedAsync += async e =>
         {
             var message = $"Received Message on Topic: '{e.ApplicationMessage.Topic}' with Content '{e.ApplicationMessage.ConvertPayloadToString()}'";
+            
             _messages.Add(message);
             // if (MessageReceived != null)
             //     await MessageReceived(message, e.ApplicationMessage.Topic);
