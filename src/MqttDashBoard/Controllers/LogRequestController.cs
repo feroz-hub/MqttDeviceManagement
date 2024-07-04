@@ -34,10 +34,10 @@ public class LogRequestController(IMqttService mqttService) : Controller
         {
             RequestId = Guid.NewGuid(),
             SourceId = "AdminClient",
-            LogRequestDto = viewModel.LogRequestModel.LogRequestDto,
+            LogRequestDto = viewModel.LogRequestDto,
             RequestDate = DateTime.Now
         };
-        await mqttService.MqttPublish(dto, viewModel.LogRequestModel.LogRequestDto.TargetId);
+        await mqttService.MqttPublish(dto, viewModel.LogRequestDto.TargetId);
         //await mqttService.SubscribeToTopic("");
 
         return RedirectToAction("Index");

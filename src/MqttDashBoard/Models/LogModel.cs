@@ -2,7 +2,7 @@ namespace MqttDashBoard.Models;
 
 public class LogModel
 {
-    public LogRequestModel LogRequestModel { get; set; }
+    public LogRequestDto LogRequestDto { get; set; }
     public LogResponseModel LogResponseModel { get; set; }
 }
 public class LogRequestModel
