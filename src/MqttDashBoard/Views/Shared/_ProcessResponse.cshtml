@@ -1,0 +1,13 @@
+@model ProcessResponseModel
+
+<div class="card">
+    <h2>Log Response</h2>
+    <ul id="log-messages">
+        @foreach (var message in Model.Messages)
+        {
+            <div class="card-body">
+                <li>@message</li>
+            </div>
+        }
+    </ul>
+</div>
