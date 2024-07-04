@@ -6,7 +6,6 @@ namespace MqttDashBoard.Controllers;
 
 public class LogController(IMqttService mqttService) : Controller
 {
-    // GET
     public IActionResult Index()
     {
         //_mqttService.MessageReceived += OnMessageReceived;
