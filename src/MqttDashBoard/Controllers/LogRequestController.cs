@@ -4,7 +4,7 @@ using MqttDashBoard.Services.Interfaces;
 
 namespace MqttDashBoard.Controllers;
 
-public class LogController(IMqttService mqttService) : Controller
+public class LogRequestController(IMqttService mqttService) : Controller
 {
     public IActionResult Index()
     {
