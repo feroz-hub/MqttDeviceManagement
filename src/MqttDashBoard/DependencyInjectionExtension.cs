@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using MqttDashBoard.Data;
+using MqttDashBoard.Infrastructure;
 using MqttDashBoard.Services;
 using MqttDashBoard.Services.Interfaces;
 using MQTTnet;
@@ -14,6 +15,7 @@ public static class DependencyInjectionExtension
         services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlite(configuration.GetConnectionString("DefaultConnection")));
 
+        services.AddScoped<IMqttClientRepository, MqttClientRepository>();
         services.AddSingleton<IMqttService, MqttService>();
         services.AddSingleton<IMqttClient>(opt =>
         {

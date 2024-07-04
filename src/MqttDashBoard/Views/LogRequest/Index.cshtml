@@ -4,16 +4,16 @@
     <div>
         <h2>LogRequest</h2>
         <form asp-action="Index" method="post">
-            @* <div class="form-group"> *@
-            @*     <label for="TargetId">Target Id</label> *@
-            @*     <input id="TargetId" name="LogRequestDto.TargetId" class="form-control" /> *@
-            @* </div> *@
-             <div class="form-group "> 
-                        <input asp-for="LogRequestModel.LogRequestDto.TargetId" class="form-control border shadow"/>
-                        <label asp-for="LogRequestModel.LogRequestDto.TargetId" class="ms-2"></label>
-                        <span asp-validation-for="LogRequestModel.LogRequestDto.TargetId" class="text-danger"></span>
-             </div>
-            
+            <div class="form-group">
+                <label for="TargetId">Target Id</label>
+                <input id="TargetId" name="LogRequestModel.LogRequestDto.TargetId" class="form-control" />
+            </div>
+             @* <div class="form-group ">  *@
+             @*            <input asp-for="LogRequestModel.LogRequestDto.TargetId" class="form-control border shadow"/> *@
+             @*            <label asp-for="LogRequestModel.LogRequestDto.TargetId" class="ms-2"></label> *@
+             @*            <span asp-validation-for="LogRequestModel.LogRequestDto.TargetId" class="text-danger"></span> *@
+             @* </div> *@
+             @* *@
             <div class="row">
                 <div class="col-md-6">
                     <label for="LogTypes">Log Types</label>
@@ -21,7 +21,7 @@
                         @foreach (var logType in Enum.GetValues(typeof(LogType)))
                         {
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="@logType" id="LogTypes_@logType" name="LogRequestDto.LogTypes" />
+                                <input class="form-check-input" type="checkbox" value="@logType" id="LogTypes_@logType" name="LogRequestModel.LogRequestDto.LogTypes" />
                                 <label class="form-check-label" for="LogTypes_@logType">@logType</label>
                             </div>
                         }
@@ -34,7 +34,7 @@
                         @foreach (var logLevel in Enum.GetValues(typeof(LogLevel)))
                         {
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="@logLevel" id="LogLevels_@logLevel" name="LogRequestDto.LogLevels" />
+                                <input class="form-check-input" type="checkbox" value="@logLevel" id="LogLevels_@logLevel" name="LogRequestModel.LogRequestDto.LogLevels" />
                                 <label class="form-check-label" for="LogLevels_@logLevel">@logLevel</label>
                             </div>
                         }
@@ -44,12 +44,12 @@
         
             <div class="form-group form-check">
                 <label for="IsAckRequired">Is Acknowledgment Required</label>
-                <input id="IsAckRequired" name="LogRequestDto.IsAckRequired" type="checkbox" class="form-check-input" />
+                <input id="IsAckRequired" name="LogRequestModel.LogRequestDto.IsAckRequired" type="checkbox" class="form-check-input" />
             </div>
         
             <div class="form-group">
                 <label for="ActionType">Action Type</label>
-                <select id="ActionType" name="LogRequestDto.ActionType" class="form-control">
+                <select id="ActionType" name="LogRequestModel.LogRequestDto.ActionType" class="form-control">
                     @foreach (var actionType in Enum.GetValues(typeof(ActionType)))
                     {
                         <option value="@actionType">@actionType</option>
@@ -59,7 +59,7 @@
         
             <div class="form-group">
                 <label for="ResponseType">Response Type</label>
-                <select id="ResponseType" name="LogRequestDto.ResponseType" class="form-control">
+                <select id="ResponseType" name="LogRequestModel.LogRequestDto.ResponseType" class="form-control">
                     @foreach (var responseType in Enum.GetValues(typeof(ResponseType)))
                     {
                         <option value="@responseType">@responseType</option>
@@ -69,12 +69,12 @@
         
             <div class="form-group">
                 <label for="FromDate">From Date</label>
-                <input id="FromDate" name="LogRequestDto.FromDate" type="datetime-local" class="form-control" />
+                <input id="FromDate" name="LogRequestModel.LogRequestDto.FromDate" type="datetime-local" class="form-control" />
             </div>
         
             <div class="form-group">
                 <label for="EndDate">End Date</label>
-                <input id="EndDate" name="LogRequestDto.EndDate" type="datetime-local" class="form-control" />
+                <input id="EndDate" name="LogRequestModel.LogRequestDto.EndDate" type="datetime-local" class="form-control" />
             </div>
         
             <button type="submit" class="btn btn-primary">Send Log Request</button>
@@ -114,6 +114,12 @@
             }
  
             setInterval(fetchMessages, 5000); // Fetch new messages every 5 seconds
+             $('input[name="selectedClients"]').change(function() {
+                        if ($(this).is(':checked')) {
+                            var deviceName = $(this).val(); // Get the device name
+                            $('#TargetId').val(deviceName); // Update the TargetId input field
+                        }
+                    });
         });
 </script>
 }

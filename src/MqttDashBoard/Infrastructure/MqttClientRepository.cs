@@ -1,31 +1,40 @@
+using Microsoft.EntityFrameworkCore;
+using MqttDashBoard.Data;
 using MqttDashBoard.Models;
 
 namespace MqttDashBoard.Infrastructure;
 
-public class MqttClientRepository:IMqttClientRepository
+public class MqttClientRepository(ApplicationDbContext dbContext):IMqttClientRepository
 {
     public async Task<List<string>> GetActiveClientIdsAsync()
     {
-        throw new NotImplementedException();
+        return await dbContext.MqttClients
+            .Where(client => client.Status)
+            .Select(client => client.ClientId.ToString())
+            .ToListAsync();
     }
 
     public async Task<List<MqttClientModel>> GetAllClientsAsync()
     {
-        throw new NotImplementedException();
+        return await dbContext.MqttClients.ToListAsync();
     }
 
     public async Task<List<string>> GetAllClient()
     {
-        throw new NotImplementedException();
+        return await dbContext.MqttClients
+            .Select(client => client.DeviceName)
+            .ToListAsync();
     }
 
     public async Task RegisterClientAsync(MqttClientModel mqttClientRegistration)
     {
-        throw new NotImplementedException();
+        dbContext.MqttClients.Add(mqttClientRegistration);
+        await dbContext.SaveChangesAsync();
     }
 
     public async Task UpdateClientAsync(MqttClientModel clientRegistration)
     {
-        throw new NotImplementedException();
+        dbContext.MqttClients.Update(clientRegistration);
+        await dbContext.SaveChangesAsync();
     }
 }
