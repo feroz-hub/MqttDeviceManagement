@@ -11,6 +11,7 @@ public class LogRequestController(IMqttService mqttService) : Controller
         //_mqttService.MessageReceived += OnMessageReceived;
         var viewmodel = new LogModel()
         {
+            LogRequestDto = new LogRequestDto(),
             LogResponseModel = new LogResponseModel
             {
                 Messages = mqttService.GetMessages().ToList()
@@ -43,26 +44,29 @@ public class LogRequestController(IMqttService mqttService) : Controller
         return RedirectToAction("Index");
     }
     [HttpPost]
+    [HttpPost]
     public async Task<IActionResult> Subscribe(string topic)
     {
-        if (string.IsNullOrEmpty(topic)) return RedirectToAction("Index");
+        if (string.IsNullOrEmpty(topic))
+        {
+            return BadRequest("Topic cannot be null or empty.");
+        }
+
         try
         {
             await mqttService.SubscribeToTopic(topic);
+            return RedirectToAction("Index");
         }
         catch (Exception e)
         {
-            TempData["ErrorMessage"] = $"Error while subscribing to {topic}: {e.Message}";
+            return StatusCode(500, new { success = false, message = $"Error while subscribing to {topic}: {e.Message}" });
         }
-
-        return RedirectToAction("Index");
     }
+
 
     public IActionResult GetMessagesPartial()
     {
         // _mqttService.MessageReceived += OnMessageReceived;
-
-      
         var logResponseModel = new LogResponseModel
         {
             Messages = mqttService.GetMessages().ToList()
