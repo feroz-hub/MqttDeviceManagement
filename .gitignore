@@ -399,3 +399,4 @@ FodyWeavers.xsd
 **/.idea
 
 *.db-shm
+*.db-wal
