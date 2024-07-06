@@ -1,0 +1,94 @@
+@model LogModel
+<div>
+        <h2>LogRequest</h2>
+        <form asp-action="Index" asp-controller="LogRequest" method="post" >
+            <div class="form-group">
+                <label asp-for="LogRequestDto.TargetId" class="control-label"></label>
+                <div>
+                    <input asp-for="LogRequestDto.TargetId" class="form-control" id="TargetId" />
+                    <span asp-validation-for="LogRequestDto.TargetId" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <label class="control-label">Log Types</label>
+                    <div>
+                        @foreach (var logType in Enum.GetValues(typeof(LogType)))
+                        {
+                        <div >
+                            <label>
+                                <input type="checkbox" name="LogRequestDto.LogTypes" value="@logType" @(Model.LogRequestDto.LogTypes.Contains((LogType)logType) ? "checked" : "") />
+                                @logType
+                            </label>
+                        </div>
+                        }
+                    </div>
+                    <span asp-validation-for="LogRequestDto.LogTypes" class="text-danger"></span>
+                </div>
+            
+                <div class="col-md-6">
+                    <label class="control-label">Log Levels</label>
+                    <div>
+                        @foreach (var logLevel in Enum.GetValues(typeof(LogLevel)))
+                        {
+                        <div>
+                            <label>
+                                <input type="checkbox" name="LogRequestDto.LogLevels" value="@logLevel" @(Model.LogRequestDto.LogLevels.Contains((LogLevel)logLevel) ? "checked" : "") />
+                                @logLevel
+                            </label>
+                        </div>
+                        }
+                    </div>
+                    <span asp-validation-for="LogRequestDto.LogLevels" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="LogRequestDto.IsAckRequired" class="control-label"></label>
+                <div>
+                    <input type="radio" asp-for="LogRequestDto.IsAckRequired" value="true" id="IsAckRequiredTrue" />
+                    <label for="IsAckRequiredTrue">Yes</label>
+                </div>
+                <div>
+                    <input type="radio" asp-for="LogRequestDto.IsAckRequired" value="false" id="IsAckRequiredFalse" />
+                    <label for="IsAckRequiredFalse">No</label>
+                </div>
+                <span asp-validation-for="LogRequestDto.IsAckRequired" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LogRequestDto.ActionType" class="control-label"></label>
+                <select asp-for="LogRequestDto.ActionType" class="form-control">
+                    @foreach (var actionType in Enum.GetValues(typeof(ActionType)))
+                    {
+                    <option value="@actionType">@actionType</option>
+                    }
+                </select>
+                <span asp-validation-for="LogRequestDto.ActionType" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="LogRequestDto.ResponseType" class="control-label"></label>
+                <select asp-for="LogRequestDto.ResponseType" class="form-control">
+                    @foreach (var responseType in Enum.GetValues(typeof(ResponseType)))
+                    {
+                    <option value="@responseType">@responseType</option>
+                    }
+                </select>
+                <span asp-validation-for="LogRequestDto.ResponseType" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="LogRequestDto.FromDate" class="control-label"></label>
+                <input asp-for="LogRequestDto.FromDate" class="form-control" type="datetime-local" />
+                <span asp-validation-for="LogRequestDto.FromDate" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="LogRequestDto.EndDate" class="control-label"></label>
+                <input asp-for="LogRequestDto.EndDate" class="form-control" type="datetime-local" />
+                <span asp-validation-for="LogRequestDto.EndDate" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>

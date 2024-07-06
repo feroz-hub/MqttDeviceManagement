@@ -41,7 +41,15 @@ public class LogRequestController(IMqttService mqttService) : Controller
         await mqttService.MqttPublish(dto, viewModel.LogRequestDto.TargetId);
         //await mqttService.SubscribeToTopic("");
 
-        return RedirectToAction("Index");
+        var view = new LogModel()
+        {
+            LogRequestDto = viewModel.LogRequestDto,
+            LogResponseModel = new LogResponseModel()
+            {
+                Messages = mqttService.GetMessages().ToList()
+            }
+        };
+        return View("Index",view);
     }
     [HttpPost]
     public async Task<IActionResult> Subscribe(string topic)
